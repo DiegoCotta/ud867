@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">ShowJoke</string>
-    <string name="back">Voltar</string>
+    <string name="back">Back</string>
     <string name="error_joke_text">Not have a new joke!</string>
 </resources>

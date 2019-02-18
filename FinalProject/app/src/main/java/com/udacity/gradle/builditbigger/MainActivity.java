@@ -1,9 +1,11 @@
 package com.udacity.gradle.builditbigger;
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.widget.Toast;
 
 import com.example.javajoke.Joker;
 import com.example.showjoke.ShowJokeActivity;
+
+import java.util.concurrent.ExecutionException;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -20,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
     }
 
 
@@ -45,11 +50,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void tellJoke(View view) {
-
+    public void tellJoke(View view) throws ExecutionException, InterruptedException {
         Intent intent = new Intent(this, ShowJokeActivity.class);
-        Joker joker = new Joker();
-        intent.putExtra(ShowJokeActivity.JOKE_TEXT_KEY, joker.getJoke());
+        String Joke = new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "")).get();
+        intent.putExtra(ShowJokeActivity.JOKE_TEXT_KEY, Joke);
         startActivity(intent);
 
     }

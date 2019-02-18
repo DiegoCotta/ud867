@@ -25,7 +25,7 @@ public class Joker {
         jokes.add(" What is green and sits crying in the corner?\n\nThe incredible Sulk.");
     }
 
-    public String getJoke() {
+    public static String getJoke() {
         int index = rand.nextInt(jokes.size());
         return jokes.get(index);
     }
