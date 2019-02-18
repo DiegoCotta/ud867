@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.example.javajoke.Joker;
 import com.example.showjoke.ShowJokeActivity;
 
+import org.junit.runner.RunWith;
+
 import java.util.concurrent.ExecutionException;
 
 
