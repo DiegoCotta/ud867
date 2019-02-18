@@ -31,6 +31,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -47,4 +51,6 @@ dependencies {
     })
 
     testImplementation 'junit:junit:4.12'
+    compile project(path: ':showjoke')
+    compile project(path: ':JavaJoke')
 }
