@@ -6,16 +6,13 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
-import android.view.Menu;
 import android.view.View;
 
 import com.example.showjoke.ShowJokeActivity;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
 import com.udacity.gradle.builditbigger.databinding.ActivityMainBinding;
-
 
 import java.util.concurrent.ExecutionException;
 
