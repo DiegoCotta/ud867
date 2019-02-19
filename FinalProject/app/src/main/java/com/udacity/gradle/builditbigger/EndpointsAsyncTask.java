@@ -16,6 +16,7 @@ import java.io.IOException;
 class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
     private static MyApi myApiService = null;
     private Context context;
+    public AsyncResponse callback = null;
 
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
@@ -45,5 +46,13 @@ class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> 
         } catch (IOException e) {
             return e.getMessage();
         }
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+        callback.processFinish(result);
+    }
+    public interface AsyncResponse {
+        void processFinish(String output);
     }
 }
