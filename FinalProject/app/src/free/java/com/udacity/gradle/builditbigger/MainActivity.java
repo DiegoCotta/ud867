@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.showjoke.ShowJokeActivity;
 import com.google.android.gms.ads.AdListener;
@@ -19,14 +20,14 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements EndpointsAsyncTask.AsyncResponse {
 
-    ActivityMainBinding binding;
+    ActivityMainBinding mBinding;
     private InterstitialAd mInterstitialAd;
-    public String joke = "";
+    public String mJoke = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.ad_unit_Id));
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
@@ -40,25 +41,28 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
     }
 
     private void callShowJoke() {
-        binding.progressBar.setVisibility(View.GONE);
+        mBinding.progressBar.setVisibility(View.GONE);
         Intent intent = new Intent(MainActivity.this, ShowJokeActivity.class);
-        intent.putExtra(ShowJokeActivity.JOKE_TEXT_KEY, joke);
+        intent.putExtra(ShowJokeActivity.JOKE_TEXT_KEY, mJoke);
         startActivity(intent);
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
     }
 
     public void tellJoke(View view) throws ExecutionException, InterruptedException {
-        binding.progressBar.setVisibility(View.VISIBLE);
+        mBinding.progressBar.setVisibility(View.VISIBLE);
         EndpointsAsyncTask asyncTask = new EndpointsAsyncTask();
         asyncTask.callback = this;
-        asyncTask.execute(new Pair<Context, String>(this, "")).get();
+        asyncTask.execute().get();
     }
 
 
     @Override
     public void processFinish(String Joke) {
-        this.joke = Joke;
-        if (mInterstitialAd.isLoaded()) {
+        mJoke = Joke;
+        if (Joke == null) {
+            Toast.makeText(this, R.string.error_get_joke, Toast.LENGTH_SHORT).show();
+            mBinding.progressBar.setVisibility(View.GONE);
+        } else if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
         } else {
             callShowJoke();
